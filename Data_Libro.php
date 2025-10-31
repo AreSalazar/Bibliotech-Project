@@ -7,6 +7,7 @@ class Data_Libro
     private $titulo;
     private $categoria;
     private $autor;
+    private $disponible;
 
     //se ejecuta automáticamente cuando se crea un objeto de esta clase
     function __construct($id, $titulo, $categoria, $autor)
@@ -15,6 +16,7 @@ class Data_Libro
         $this->titulo = $titulo;
         $this->categoria = $categoria;
         $this->autor = $autor;
+        $this->disponible = true; //por defecto, el libro está disponible
     }
 
     //GET y SET (Encapsulación), métodos para acceder y modificar atributos privados
@@ -66,6 +68,16 @@ class Data_Libro
         return $this;
     }
 
+    public function isDisponible()
+    {
+        return $this->disponible;//retorna true o false
+    }
+
+    public function setDisponible($estado)//$estado es true o false
+    {
+        $this->disponible = $estado;//modifica el estado de disponibilidad
+    }
+
 
     public function mostrarInformacion() //Método adicional
     {
@@ -73,5 +85,7 @@ class Data_Libro
         echo "Título: {$this->titulo}<br>";
         echo "Categoría: {$this->categoria}<br>";
         echo "Autor: {$this->autor}<br>";
+        echo "Estado: " . ($this->disponible ? "Disponible " : "No disponible ");
+        //El operador ternario (? :) se utiliza para simplificar una estructura condicional if-else
     }
 }

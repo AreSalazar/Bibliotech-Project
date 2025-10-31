@@ -24,6 +24,7 @@ echo "<hr>";
 echo "<h3> Búsqueda de libro: </h3>";
 $biblioteca->buscarLibroPorTitulo("Six of crows");
 
+
 //Aplicando modificaciones--------------------------------------------
 $libro2->setCategoria(
     "Novela-Saga"
@@ -32,6 +33,25 @@ $libro2->setCategoria(
 echo "<hr>";
 echo "<h3>Después de editar categoría del libro 2</h3>";
 $libro2->mostrarInformacion();
+
+
+//Prestar libro------------------------------------------------------
+echo "<hr>";
+echo "<h3> Prestando libro </h3>";
+$biblioteca->prestarLibro("Assistant of the Villain", "Andrea");
+
+echo "<hr>";
+$biblioteca->mostrarListaPrestamos();//mostrándolos
+
+
+//Intentar prestar el mismo libro otra vez-----------------------------
+echo "<hr>";
+$biblioteca->prestarLibro("Assistant of the Villain", "Luisa");
+
+//Mostrar los libros para ver el cambio de estado----------------------
+echo "<hr>";
+$biblioteca->mostrarLibros();
+
 
 //Eliminar libro por titulo--------------------------------------
 echo "<hr>";

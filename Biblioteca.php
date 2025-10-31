@@ -1,9 +1,11 @@
 <?php
 require_once './Data_Libro.php';
+require_once 'Prestamo.php';
 
 class Biblioteca
 {
     private $libros = []; //array de libros
+    private $prestamos = [];//array de prestamos
 
     //Método agregar un nuevo libro a biblioteca
     public function agregarLibro(Data_Libro $libro)
@@ -51,6 +53,46 @@ class Biblioteca
 
         echo "Sin resultado de búsqueda por título<br>";
         return null; //retorna null si no se encuentra el libro
+    }
+
+    //método para prestar un libro
+    public function prestarLibro($titulo, $usuario){
+
+        //Buscar el libro por título
+        $libro = $this->buscarLibroPorTitulo($titulo);
+
+        if($libro === null){
+            echo "Sin resultado del libro '$titulo' . <br>";
+            return;
+        }
+
+        if(!$libro->isDisponible()){
+            echo "El libro '{$libro->getTitulo()}' ya está prestado <br>";
+            return;
+        }
+
+        //Se crea el préstamo y se marca el libro como no disponible
+        $prestamo = new Prestamo($libro, $usuario);//crear objeto préstamo que asocia el libro y el usuario
+        //un objeto Prestamo contiene un objeto Data_Libro y el nombre del usuario que lo pidió prestado
+        
+        $libro->setDisponible(false);//marcar el libro como no disponible
+        $this->prestamos[] = $prestamo; //agregar el préstamo al array de préstamos
+
+        echo "El libro '{$libro->getTitulo()}' fue prestado a {$usuario} <br>";
+
+    }
+
+    //Método para mostrae todos los preatamos registrados
+    public function mostrarListaPrestamos(){
+        if(empty($this->prestamos)){
+            echo "No hay prestamos registrados . <br>";
+            return;
+        }
+
+        echo "<h3> Lista de préstamos: </h3>";
+        foreach($this->prestamos as $prestamo){//recorrer cada préstamo en el array
+            $prestamo->mostrarDatosPrestamo();
+        }
     }
 
     //Método para eliminar un libro por su ID
